@@ -1,0 +1,114 @@
+{
+	"admin": {
+		"disabled": true
+	},
+	"logging": {
+		"logs": {
+			"default": {
+				"writer": {
+					"filename": "/var/log/caddy/access.log",
+					"output": "file"
+				},
+				"level": "INFO"
+			}
+		}
+	},
+	"apps": {
+		"http": {
+			"servers": {
+				"srv0": {
+					"listen": [
+						":443"
+					],
+					"routes": [
+						{
+							"handle": [
+								{
+									"handler": "subroute",
+									"routes": [
+										{
+											"handle": [
+												{
+													"auth_pass_deprecated": "your_password",
+													"auth_user_deprecated": "user_name",
+													"handler": "forward_proxy",
+													"hide_ip": true,
+													"hide_via": true,
+													"probe_resistance": {
+														"domain": "rP7uSWkJpZzfg5g2Qr.com"
+													}
+												}
+											]
+										},
+										{
+											"handle": [
+												{
+													"handler": "file_server",
+													"hide": [
+														"./Caddyfile"
+													],
+													"root": "/var/www/html"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					],
+					"protocols": [
+						"h1",
+						"h2",
+						"h3"
+					]
+				},
+				"srv1": {
+					"listen": [
+						":80"
+					],
+					"routes": [
+						{
+							"handle": [
+								{
+									"handler": "static_response",
+									"headers": {
+										"Location": [
+											"https://{http.request.host}{http.request.uri}"
+										]
+									},
+									"status_code": 301
+								}
+							]
+						}
+					]
+				}
+			}
+		},
+		"tls": {
+			"certificates": {
+				"automate": [
+					"your_domain.com"
+				]
+			},
+			"automation": {
+				"policies": [
+					{
+						"subjects": [
+							"your_domain.com"
+						],
+						"issuers": [
+							{
+								"email": "your@email.com",
+								"module": "acme"
+							},
+							{
+								"email": "your@email.com",
+								"module": "zerossl"
+							}
+						]
+					}
+				]
+			}
+		}
+	}
+}
