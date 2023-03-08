@@ -51,10 +51,11 @@ route {
 }
 EOF
 ```
-4. docker 启动
+4. 用/etc/naiveproxy/Caddyfile 启动 docker
 `docker run --network host --name naiveproxy -v /etc/naiveproxy:/etc/naiveproxy -v /var/www/html:/var/www/html -v /var/log/caddy:/var/log/caddy -e PATH=/etc/naiveproxy/Caddyfile --restart=always -d pocat/naiveproxy`
 
-
+5. 或用 /etc/naiveproxy/config.json 启动docker
+`docker run --network host --name naiveproxy -v /etc/naiveproxy:/etc/naiveproxy -v /var/www/html:/var/www/html -v /var/log/caddy:/var/log/caddy -e PATH=/etc/naiveproxy/config.json --restart=always -d pocat/naiveproxy`
 
 ### 客户端安装
 1. 拉镜像
