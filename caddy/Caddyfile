@@ -1,0 +1,28 @@
+{
+  admin off
+  log {
+      output file /var/log/caddy/access.log
+      level INFO
+  }
+  servers :443 {
+      protocols h1 h2 h3
+  }
+}
+
+:80 {
+  redir https://{host}{uri} permanent
+}
+
+:443, your_domain.com  #Modify to your domain
+tls your@email.com  #Modify to your email address
+route {
+  forward_proxy {
+      basic_auth user_name your_password  #Modify to your user name and password
+      hide_ip
+      hide_via
+      probe_resistance rP7uSWkJpZzfg5g2Qr.com  #Modify to a secret domain, like password
+  }
+  file_server {
+      root /var/www/html
+  }
+}
