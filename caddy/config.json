@@ -34,9 +34,7 @@
 													"handler": "forward_proxy",
 													"hide_ip": true,
 													"hide_via": true,
-													"probe_resistance": {
-														"domain": "rP7uSWkJpZzfg5g2Qr.com"
-													}
+													"probe_resistance": {}
 												}
 											]
 										},
